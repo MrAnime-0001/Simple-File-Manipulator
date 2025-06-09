@@ -1,11 +1,52 @@
-using System;
+﻿using System;
 using System.IO;
+using System.Media;
 using System.Windows.Forms;
 
 namespace FileRenamerApp
 {
     public partial class Form1 : Form
     {
+
+        public static void ShowToast(string message, int duration = 2000, bool playSound = true)
+        {
+            Form toast = new Form
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                StartPosition = FormStartPosition.Manual,
+                ShowInTaskbar = false,
+                TopMost = true,
+                BackColor = Color.FromArgb(45, 45, 48),
+                Size = new Size(250, 60),
+                Opacity = 0.9
+            };
+
+            toast.Controls.Add(new Label
+            {
+                Text = message,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                ForeColor = Color.White
+            });
+
+            var screen = Screen.PrimaryScreen.WorkingArea;
+            toast.Location = new Point(screen.Right - toast.Width - 10, screen.Bottom - toast.Height - 10);
+
+            toast.Shown += async (s, e) =>
+            {
+                if (playSound)
+                {
+                    SystemSounds.Exclamation.Play(); // Default Windows notification sound
+                }
+
+                await Task.Delay(duration);
+                toast.Close();
+            };
+
+            toast.Show();
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -78,11 +119,11 @@ namespace FileRenamerApp
                         else
                         {
                             // Handle the case where the file doesn't exist
-                            MessageBox.Show($"File does not exist: {filePath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ShowToast($"❌ File does not exist: {filePath}", 4000, false);
                         }
                     }
 
-                    MessageBox.Show("Files renamed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ShowToast("✅ Files renamed successfully!", 4000, true);
 
                     // Clear the list view after renaming
                     SelectedFilesListView.Items.Clear();
@@ -90,7 +131,7 @@ namespace FileRenamerApp
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error renaming files: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ShowToast($"❌ Error renaming files: {ex.Message}", 6000, false);
                 }
             }
         }
@@ -103,7 +144,7 @@ namespace FileRenamerApp
 
                 if (string.IsNullOrEmpty(newExtension))
                 {
-                    MessageBox.Show("Please enter a valid extension.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ShowToast("❌ Please enter a valid extension.", 4000, false);
                     return;
                 }
 
@@ -136,17 +177,17 @@ namespace FileRenamerApp
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Error renaming file {fileName}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ShowToast($"❌ Error renaming file {fileName}: {ex.Message}", 6000, false);
                         }
                     }
                     else
                     {
                         // Handle the case where the file doesn't exist
-                        MessageBox.Show($"File does not exist: {filePath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ShowToast($"❌ File does not exist: {filePath}", 4000, false);
                     }
                 }
 
-                MessageBox.Show("File extensions changed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowToast("✅ File extensions changed successfully!", 4000, true);
 
                 // Clear the list view after changing extensions
                 SelectedFilesListView.Items.Clear();
@@ -154,7 +195,7 @@ namespace FileRenamerApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error changing file extensions: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowToast($"❌ Error changing file extensions: {ex.Message}", 6000, false);
             }
         }
 
@@ -178,7 +219,7 @@ namespace FileRenamerApp
             {
                 if (SelectedFilesListView.Items.Count == 0)
                 {
-                    MessageBox.Show("No files selected.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ShowToast("ℹ️ No files selected.", 3000, false);
                     return;
                 }
 
@@ -200,18 +241,18 @@ namespace FileRenamerApp
                         }
                     }
 
-                    MessageBox.Show($"File names saved to {filePath} successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ShowToast($"✅ File names saved to {filePath} successfully!", 4000, true);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving file names: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowToast($"❌ Error saving file names: {ex.Message}", 6000, false);
             }
         }
 
         private void lblAboutThisProgram_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This program was made by Yutti Vong Chylong.\nDiscord: mranime", "About This Program", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowToast("This program was made by Yutti Vong Chylong.\nDiscord: mranime", 5000, true);
         }
     }
 }
