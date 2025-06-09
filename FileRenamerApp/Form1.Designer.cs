@@ -47,6 +47,12 @@
             SelectedFilesListView.Size = new Size(280, 264);
             SelectedFilesListView.TabIndex = 0;
             SelectedFilesListView.UseCompatibleStateImageBehavior = false;
+            SelectedFilesListView.View = View.Details;
+            SelectedFilesListView.FullRowSelect = true;
+            SelectedFilesListView.GridLines = true;
+            SelectedFilesListView.BackColor = Color.FromArgb(30, 30, 30);
+            SelectedFilesListView.ForeColor = Color.White;
+            SelectedFilesListView.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             // 
             // columnHeader1
             // 
@@ -78,6 +84,12 @@
             BrowseButton.TabIndex = 2;
             BrowseButton.Text = "BrowseButton";
             BrowseButton.UseVisualStyleBackColor = true;
+            BrowseButton.FlatStyle = FlatStyle.Flat;
+            BrowseButton.FlatAppearance.BorderSize = 1;
+            BrowseButton.FlatAppearance.BorderColor = Color.Gray;
+            BrowseButton.ForeColor = Color.White;
+            BrowseButton.BackColor = Color.FromArgb(45, 45, 48);
+            BrowseButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             BrowseButton.Click += BrowseButton_Click;
             // 
             // RenameButton
@@ -88,6 +100,12 @@
             RenameButton.TabIndex = 3;
             RenameButton.Text = "Random File Rename";
             RenameButton.UseVisualStyleBackColor = true;
+            RenameButton.FlatStyle = FlatStyle.Flat;
+            RenameButton.FlatAppearance.BorderSize = 1;
+            RenameButton.FlatAppearance.BorderColor = Color.Gray;
+            RenameButton.ForeColor = Color.White;
+            RenameButton.BackColor = Color.FromArgb(45, 45, 48);
+            RenameButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             RenameButton.Click += RenameButton_Click;
             // 
             // ChangeExtensionButton
@@ -98,6 +116,12 @@
             ChangeExtensionButton.TabIndex = 4;
             ChangeExtensionButton.Text = "Change File Extension";
             ChangeExtensionButton.UseVisualStyleBackColor = true;
+            ChangeExtensionButton.FlatStyle = FlatStyle.Flat;
+            ChangeExtensionButton.FlatAppearance.BorderSize = 1;
+            ChangeExtensionButton.FlatAppearance.BorderColor = Color.Gray;
+            ChangeExtensionButton.ForeColor = Color.White;
+            ChangeExtensionButton.BackColor = Color.FromArgb(45, 45, 48);
+            ChangeExtensionButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             ChangeExtensionButton.Click += ChangeExtensionButton_Click;
             // 
             // lblAboutThisProgram
@@ -109,6 +133,7 @@
             lblAboutThisProgram.Size = new Size(113, 15);
             lblAboutThisProgram.TabIndex = 5;
             lblAboutThisProgram.Text = "About This Program";
+            lblAboutThisProgram.Cursor = Cursors.Hand;
             lblAboutThisProgram.Click += lblAboutThisProgram_Click;
             // 
             // SaveNamesToTxtButton
@@ -119,6 +144,12 @@
             SaveNamesToTxtButton.TabIndex = 6;
             SaveNamesToTxtButton.Text = "Save File Names to Text File";
             SaveNamesToTxtButton.UseVisualStyleBackColor = true;
+            SaveNamesToTxtButton.FlatStyle = FlatStyle.Flat;
+            SaveNamesToTxtButton.FlatAppearance.BorderSize = 1;
+            SaveNamesToTxtButton.FlatAppearance.BorderColor = Color.Gray;
+            SaveNamesToTxtButton.ForeColor = Color.White;
+            SaveNamesToTxtButton.BackColor = Color.FromArgb(45, 45, 48);
+            SaveNamesToTxtButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             SaveNamesToTxtButton.Click += SaveNamesToTxtButton_Click;
             // 
             // Form1
