@@ -37,22 +37,23 @@
             ChangeExtensionButton = new Button();
             lblAboutThisProgram = new Label();
             SaveNamesToTxtButton = new Button();
+            btnCombinePartsSequentially = new Button();
             SuspendLayout();
             // 
             // SelectedFilesListView
             // 
+            SelectedFilesListView.BackColor = Color.FromArgb(30, 30, 30);
             SelectedFilesListView.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
+            SelectedFilesListView.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            SelectedFilesListView.ForeColor = Color.White;
+            SelectedFilesListView.FullRowSelect = true;
+            SelectedFilesListView.GridLines = true;
             SelectedFilesListView.Location = new Point(12, 101);
             SelectedFilesListView.Name = "SelectedFilesListView";
             SelectedFilesListView.Size = new Size(280, 264);
             SelectedFilesListView.TabIndex = 0;
             SelectedFilesListView.UseCompatibleStateImageBehavior = false;
             SelectedFilesListView.View = View.Details;
-            SelectedFilesListView.FullRowSelect = true;
-            SelectedFilesListView.GridLines = true;
-            SelectedFilesListView.BackColor = Color.FromArgb(30, 30, 30);
-            SelectedFilesListView.ForeColor = Color.White;
-            SelectedFilesListView.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             // 
             // columnHeader1
             // 
@@ -78,86 +79,98 @@
             // 
             // BrowseButton
             // 
+            BrowseButton.BackColor = Color.FromArgb(45, 45, 48);
+            BrowseButton.FlatAppearance.BorderColor = Color.Gray;
+            BrowseButton.FlatStyle = FlatStyle.Flat;
+            BrowseButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            BrowseButton.ForeColor = Color.White;
             BrowseButton.Location = new Point(12, 12);
             BrowseButton.Name = "BrowseButton";
             BrowseButton.Size = new Size(280, 46);
             BrowseButton.TabIndex = 2;
             BrowseButton.Text = "BrowseButton";
-            BrowseButton.UseVisualStyleBackColor = true;
-            BrowseButton.FlatStyle = FlatStyle.Flat;
-            BrowseButton.FlatAppearance.BorderSize = 1;
-            BrowseButton.FlatAppearance.BorderColor = Color.Gray;
-            BrowseButton.ForeColor = Color.White;
-            BrowseButton.BackColor = Color.FromArgb(45, 45, 48);
-            BrowseButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            BrowseButton.UseVisualStyleBackColor = false;
             BrowseButton.Click += BrowseButton_Click;
             // 
             // RenameButton
             // 
+            RenameButton.BackColor = Color.FromArgb(45, 45, 48);
+            RenameButton.FlatAppearance.BorderColor = Color.Gray;
+            RenameButton.FlatStyle = FlatStyle.Flat;
+            RenameButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            RenameButton.ForeColor = Color.White;
             RenameButton.Location = new Point(12, 371);
             RenameButton.Name = "RenameButton";
             RenameButton.Size = new Size(280, 46);
             RenameButton.TabIndex = 3;
             RenameButton.Text = "Random File Rename";
-            RenameButton.UseVisualStyleBackColor = true;
-            RenameButton.FlatStyle = FlatStyle.Flat;
-            RenameButton.FlatAppearance.BorderSize = 1;
-            RenameButton.FlatAppearance.BorderColor = Color.Gray;
-            RenameButton.ForeColor = Color.White;
-            RenameButton.BackColor = Color.FromArgb(45, 45, 48);
-            RenameButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            RenameButton.UseVisualStyleBackColor = false;
             RenameButton.Click += RenameButton_Click;
             // 
             // ChangeExtensionButton
             // 
+            ChangeExtensionButton.BackColor = Color.FromArgb(45, 45, 48);
+            ChangeExtensionButton.FlatAppearance.BorderColor = Color.Gray;
+            ChangeExtensionButton.FlatStyle = FlatStyle.Flat;
+            ChangeExtensionButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            ChangeExtensionButton.ForeColor = Color.White;
             ChangeExtensionButton.Location = new Point(12, 423);
             ChangeExtensionButton.Name = "ChangeExtensionButton";
             ChangeExtensionButton.Size = new Size(280, 46);
             ChangeExtensionButton.TabIndex = 4;
             ChangeExtensionButton.Text = "Change File Extension";
-            ChangeExtensionButton.UseVisualStyleBackColor = true;
-            ChangeExtensionButton.FlatStyle = FlatStyle.Flat;
-            ChangeExtensionButton.FlatAppearance.BorderSize = 1;
-            ChangeExtensionButton.FlatAppearance.BorderColor = Color.Gray;
-            ChangeExtensionButton.ForeColor = Color.White;
-            ChangeExtensionButton.BackColor = Color.FromArgb(45, 45, 48);
-            ChangeExtensionButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            ChangeExtensionButton.UseVisualStyleBackColor = false;
             ChangeExtensionButton.Click += ChangeExtensionButton_Click;
             // 
             // lblAboutThisProgram
             // 
             lblAboutThisProgram.AutoSize = true;
+            lblAboutThisProgram.Cursor = Cursors.Hand;
             lblAboutThisProgram.ForeColor = SystemColors.Highlight;
-            lblAboutThisProgram.Location = new Point(179, 524);
+            lblAboutThisProgram.Location = new Point(178, 576);
             lblAboutThisProgram.Name = "lblAboutThisProgram";
-            lblAboutThisProgram.Size = new Size(113, 15);
+            lblAboutThisProgram.Size = new Size(114, 15);
             lblAboutThisProgram.TabIndex = 5;
             lblAboutThisProgram.Text = "About This Program";
-            lblAboutThisProgram.Cursor = Cursors.Hand;
             lblAboutThisProgram.Click += lblAboutThisProgram_Click;
             // 
             // SaveNamesToTxtButton
             // 
-            SaveNamesToTxtButton.Location = new Point(12, 475);
+            SaveNamesToTxtButton.BackColor = Color.FromArgb(45, 45, 48);
+            SaveNamesToTxtButton.FlatAppearance.BorderColor = Color.Gray;
+            SaveNamesToTxtButton.FlatStyle = FlatStyle.Flat;
+            SaveNamesToTxtButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            SaveNamesToTxtButton.ForeColor = Color.White;
+            SaveNamesToTxtButton.Location = new Point(12, 527);
             SaveNamesToTxtButton.Name = "SaveNamesToTxtButton";
             SaveNamesToTxtButton.Size = new Size(280, 46);
             SaveNamesToTxtButton.TabIndex = 6;
             SaveNamesToTxtButton.Text = "Save File Names to Text File";
-            SaveNamesToTxtButton.UseVisualStyleBackColor = true;
-            SaveNamesToTxtButton.FlatStyle = FlatStyle.Flat;
-            SaveNamesToTxtButton.FlatAppearance.BorderSize = 1;
-            SaveNamesToTxtButton.FlatAppearance.BorderColor = Color.Gray;
-            SaveNamesToTxtButton.ForeColor = Color.White;
-            SaveNamesToTxtButton.BackColor = Color.FromArgb(45, 45, 48);
-            SaveNamesToTxtButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            SaveNamesToTxtButton.UseVisualStyleBackColor = false;
             SaveNamesToTxtButton.Click += SaveNamesToTxtButton_Click;
+            // 
+            // btnCombinePartsSequentially
+            // 
+            btnCombinePartsSequentially.BackColor = Color.FromArgb(45, 45, 48);
+            btnCombinePartsSequentially.FlatAppearance.BorderColor = Color.Gray;
+            btnCombinePartsSequentially.FlatStyle = FlatStyle.Flat;
+            btnCombinePartsSequentially.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            btnCombinePartsSequentially.ForeColor = Color.White;
+            btnCombinePartsSequentially.Location = new Point(12, 475);
+            btnCombinePartsSequentially.Name = "btnCombinePartsSequentially";
+            btnCombinePartsSequentially.Size = new Size(280, 46);
+            btnCombinePartsSequentially.TabIndex = 7;
+            btnCombinePartsSequentially.Text = "Sequential Merge";
+            btnCombinePartsSequentially.UseVisualStyleBackColor = false;
+            btnCombinePartsSequentially.Click += btnCombinePartsSequentially_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(18, 18, 18);
-            ClientSize = new Size(298, 544);
+            ClientSize = new Size(298, 597);
+            Controls.Add(btnCombinePartsSequentially);
             Controls.Add(SaveNamesToTxtButton);
             Controls.Add(lblAboutThisProgram);
             Controls.Add(ChangeExtensionButton);
@@ -185,5 +198,6 @@
         private ColumnHeader columnHeader2;
         private Label lblAboutThisProgram;
         private Button SaveNamesToTxtButton;
+        private Button btnCombinePartsSequentially;
     }
 }

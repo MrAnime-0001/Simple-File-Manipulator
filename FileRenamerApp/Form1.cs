@@ -254,5 +254,93 @@ namespace FileRenamerApp
         {
             ShowToast("This program was made by Yutti Vong Chylong.\nDiscord: mranime", 5000, true);
         }
+
+        private void btnCombinePartsSequentially_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 🔹 Clear any existing items first to avoid conflicts
+                SelectedFilesListView.Items.Clear();
+                SelectedFilesCountLabel.Text = "0 file(s) selected";
+
+                // Select first set (Part 1)
+                OpenFileDialog dialog1 = new OpenFileDialog();
+                dialog1.Multiselect = true;
+                dialog1.Title = "Select files for Part 1";
+                if (dialog1.ShowDialog() != DialogResult.OK) return;
+                string[] part1Files = dialog1.FileNames;
+
+                // Select second set (Part 2)
+                OpenFileDialog dialog2 = new OpenFileDialog();
+                dialog2.Multiselect = true;
+                dialog2.Title = "Select files for Part 2";
+                if (dialog2.ShowDialog() != DialogResult.OK) return;
+                string[] part2Files = dialog2.FileNames;
+
+                // 🔹 Remove duplicates (files already chosen in Part 1)
+                var uniquePart2Files = part2Files.Except(part1Files).ToArray();
+
+                if (uniquePart2Files.Length < part2Files.Length)
+                {
+                    ShowToast("⚠️ Some files were already in Part 1 and have been skipped from Part 2.", 5000, false);
+                }
+
+                // Calculate total
+                int totalFiles = part1Files.Length + uniquePart2Files.Length;
+
+                if (totalFiles == 0)
+                {
+                    ShowToast("ℹ️ No files selected.", 3000, false);
+                    return;
+                }
+
+                // Work out how many digits are needed automatically
+                int digits = totalFiles.ToString().Length;
+
+                int counter = 1;
+
+                // Rename Part 1 files
+                foreach (string filePath in part1Files)
+                {
+                    if (File.Exists(filePath))
+                    {
+                        string directory = Path.GetDirectoryName(filePath);
+                        string extension = Path.GetExtension(filePath);
+
+                        string newFileName = counter.ToString("D" + digits) + extension;
+                        string newFilePath = Path.Combine(directory, newFileName);
+
+                        File.Move(filePath, newFilePath);
+                        counter++;
+                    }
+                }
+
+                // Rename Part 2 files (only unique ones)
+                foreach (string filePath in uniquePart2Files)
+                {
+                    if (File.Exists(filePath))
+                    {
+                        string directory = Path.GetDirectoryName(filePath);
+                        string extension = Path.GetExtension(filePath);
+
+                        string newFileName = counter.ToString("D" + digits) + extension;
+                        string newFilePath = Path.Combine(directory, newFileName);
+
+                        File.Move(filePath, newFilePath);
+                        counter++;
+                    }
+                }
+
+                ShowToast($"✅ Renamed {totalFiles} files successfully!", 4000, true);
+
+                // 🔹 Clear again after renaming so no stale paths remain
+                SelectedFilesListView.Items.Clear();
+                SelectedFilesCountLabel.Text = "0 file(s) selected";
+            }
+            catch (Exception ex)
+            {
+                ShowToast($"❌ Error: {ex.Message}", 6000, false);
+            }
+        }
     }
 }
