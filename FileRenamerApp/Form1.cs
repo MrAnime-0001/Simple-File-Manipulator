@@ -342,5 +342,78 @@ namespace FileRenamerApp
                 ShowToast($"❌ Error: {ex.Message}", 6000, false);
             }
         }
+
+        private void btnMergeAndRenameFolders_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Step 1: Select root folder
+                using (var dialog = new FolderBrowserDialog())
+                {
+                    dialog.Description = "Select the root folder containing subfolders (01, 02, 03, ...)";
+                    if (dialog.ShowDialog() != DialogResult.OK) return;
+
+                    string rootFolder = dialog.SelectedPath;
+
+                    // Step 2: Get subfolders sorted alphabetically
+                    var subFolders = Directory.GetDirectories(rootFolder).OrderBy(f => f).ToArray();
+
+                    if (subFolders.Length == 0)
+                    {
+                        ShowToast("ℹ️ No subfolders found.", 3000, false);
+                        return;
+                    }
+
+                    // Step 3: Auto-create output folder beside root folder
+                    string parentDir = Path.GetDirectoryName(rootFolder);
+                    string rootName = Path.GetFileName(rootFolder);
+                    string outputFolder = Path.Combine(parentDir, rootName + "_PhotoMerged");
+
+                    if (!Directory.Exists(outputFolder))
+                    {
+                        Directory.CreateDirectory(outputFolder);
+                    }
+
+                    // Step 4: Collect images from each folder in order
+                    var supportedExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp" };
+                    var allImages = new List<string>();
+
+                    foreach (var folder in subFolders)
+                    {
+                        var images = Directory.GetFiles(folder)
+                                              .Where(f => supportedExtensions.Contains(Path.GetExtension(f).ToLower()))
+                                              .ToArray();
+
+                        allImages.AddRange(images);
+                    }
+
+                    if (allImages.Count == 0)
+                    {
+                        ShowToast("ℹ️ No images found in selected folders.", 3000, false);
+                        return;
+                    }
+
+                    // Step 5: Work out digit length for renaming (e.g. 001, 002...)
+                    int digits = allImages.Count.ToString().Length;
+
+                    int counter = 1;
+                    foreach (var imagePath in allImages)
+                    {
+                        string extension = Path.GetExtension(imagePath);
+                        string newFileName = counter.ToString("D" + digits) + extension;
+                        string newFilePath = Path.Combine(outputFolder, newFileName);
+
+                        File.Copy(imagePath, newFilePath, true);
+                        counter++;
+                    }
+
+                    ShowToast($"✅ {allImages.Count} images merged into {outputFolder}!", 5000, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowToast($"❌ Error: {ex.Message}", 6000, false);
+            }
+        }
     }
 }

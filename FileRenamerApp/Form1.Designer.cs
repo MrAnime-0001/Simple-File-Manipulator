@@ -38,6 +38,7 @@
             lblAboutThisProgram = new Label();
             SaveNamesToTxtButton = new Button();
             btnCombinePartsSequentially = new Button();
+            btnMergeAndRenameFolders = new Button();
             SuspendLayout();
             // 
             // SelectedFilesListView
@@ -127,7 +128,7 @@
             lblAboutThisProgram.AutoSize = true;
             lblAboutThisProgram.Cursor = Cursors.Hand;
             lblAboutThisProgram.ForeColor = SystemColors.Highlight;
-            lblAboutThisProgram.Location = new Point(178, 576);
+            lblAboutThisProgram.Location = new Point(178, 628);
             lblAboutThisProgram.Name = "lblAboutThisProgram";
             lblAboutThisProgram.Size = new Size(114, 15);
             lblAboutThisProgram.TabIndex = 5;
@@ -141,7 +142,7 @@
             SaveNamesToTxtButton.FlatStyle = FlatStyle.Flat;
             SaveNamesToTxtButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             SaveNamesToTxtButton.ForeColor = Color.White;
-            SaveNamesToTxtButton.Location = new Point(12, 527);
+            SaveNamesToTxtButton.Location = new Point(12, 579);
             SaveNamesToTxtButton.Name = "SaveNamesToTxtButton";
             SaveNamesToTxtButton.Size = new Size(280, 46);
             SaveNamesToTxtButton.TabIndex = 6;
@@ -164,12 +165,28 @@
             btnCombinePartsSequentially.UseVisualStyleBackColor = false;
             btnCombinePartsSequentially.Click += btnCombinePartsSequentially_Click;
             // 
+            // btnMergeAndRenameFolders
+            // 
+            btnMergeAndRenameFolders.BackColor = Color.FromArgb(45, 45, 48);
+            btnMergeAndRenameFolders.FlatAppearance.BorderColor = Color.Gray;
+            btnMergeAndRenameFolders.FlatStyle = FlatStyle.Flat;
+            btnMergeAndRenameFolders.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            btnMergeAndRenameFolders.ForeColor = Color.White;
+            btnMergeAndRenameFolders.Location = new Point(12, 527);
+            btnMergeAndRenameFolders.Name = "btnMergeAndRenameFolders";
+            btnMergeAndRenameFolders.Size = new Size(280, 46);
+            btnMergeAndRenameFolders.TabIndex = 8;
+            btnMergeAndRenameFolders.Text = "Merge And Rename Folders";
+            btnMergeAndRenameFolders.UseVisualStyleBackColor = false;
+            btnMergeAndRenameFolders.Click += btnMergeAndRenameFolders_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(18, 18, 18);
-            ClientSize = new Size(298, 597);
+            ClientSize = new Size(298, 645);
+            Controls.Add(btnMergeAndRenameFolders);
             Controls.Add(btnCombinePartsSequentially);
             Controls.Add(SaveNamesToTxtButton);
             Controls.Add(lblAboutThisProgram);
@@ -199,5 +216,6 @@
         private Label lblAboutThisProgram;
         private Button SaveNamesToTxtButton;
         private Button btnCombinePartsSequentially;
+        private Button btnMergeAndRenameFolders;
     }
 }
