@@ -259,34 +259,25 @@ namespace FileRenamerApp
         {
             try
             {
-                // 🔹 Clear any existing items first to avoid conflicts
+                // 🔹 Clear existing items
                 SelectedFilesListView.Items.Clear();
                 SelectedFilesCountLabel.Text = "0 file(s) selected";
 
-                // Select first set (Part 1)
+                // Select Part 1
                 OpenFileDialog dialog1 = new OpenFileDialog();
                 dialog1.Multiselect = true;
                 dialog1.Title = "Select files for Part 1";
                 if (dialog1.ShowDialog() != DialogResult.OK) return;
                 string[] part1Files = dialog1.FileNames;
 
-                // Select second set (Part 2)
+                // Select Part 2
                 OpenFileDialog dialog2 = new OpenFileDialog();
                 dialog2.Multiselect = true;
                 dialog2.Title = "Select files for Part 2";
                 if (dialog2.ShowDialog() != DialogResult.OK) return;
                 string[] part2Files = dialog2.FileNames;
 
-                // 🔹 Remove duplicates (files already chosen in Part 1)
-                var uniquePart2Files = part2Files.Except(part1Files).ToArray();
-
-                if (uniquePart2Files.Length < part2Files.Length)
-                {
-                    ShowToast("⚠️ Some files were already in Part 1 and have been skipped from Part 2.", 5000, false);
-                }
-
-                // Calculate total
-                int totalFiles = part1Files.Length + uniquePart2Files.Length;
+                int totalFiles = part1Files.Length + part2Files.Length;
 
                 if (totalFiles == 0)
                 {
@@ -294,46 +285,44 @@ namespace FileRenamerApp
                     return;
                 }
 
-                // Work out how many digits are needed automatically
+                // Calculate digits (001 / 0001 / etc.)
                 int digits = totalFiles.ToString().Length;
 
                 int counter = 1;
 
-                // Rename Part 1 files
+                // Rename Part 1
                 foreach (string filePath in part1Files)
                 {
-                    if (File.Exists(filePath))
-                    {
-                        string directory = Path.GetDirectoryName(filePath);
-                        string extension = Path.GetExtension(filePath);
+                    if (!File.Exists(filePath)) continue;
 
-                        string newFileName = counter.ToString("D" + digits) + extension;
-                        string newFilePath = Path.Combine(directory, newFileName);
+                    string directory = Path.GetDirectoryName(filePath);
+                    string extension = Path.GetExtension(filePath);
 
-                        File.Move(filePath, newFilePath);
-                        counter++;
-                    }
+                    string newFileName = counter.ToString("D" + digits) + extension;
+                    string newFilePath = Path.Combine(directory, newFileName);
+
+                    File.Move(filePath, newFilePath);
+                    counter++;
                 }
 
-                // Rename Part 2 files (only unique ones)
-                foreach (string filePath in uniquePart2Files)
+                // Rename Part 2
+                foreach (string filePath in part2Files)
                 {
-                    if (File.Exists(filePath))
-                    {
-                        string directory = Path.GetDirectoryName(filePath);
-                        string extension = Path.GetExtension(filePath);
+                    if (!File.Exists(filePath)) continue;
 
-                        string newFileName = counter.ToString("D" + digits) + extension;
-                        string newFilePath = Path.Combine(directory, newFileName);
+                    string directory = Path.GetDirectoryName(filePath);
+                    string extension = Path.GetExtension(filePath);
 
-                        File.Move(filePath, newFilePath);
-                        counter++;
-                    }
+                    string newFileName = counter.ToString("D" + digits) + extension;
+                    string newFilePath = Path.Combine(directory, newFileName);
+
+                    File.Move(filePath, newFilePath);
+                    counter++;
                 }
 
                 ShowToast($"✅ Renamed {totalFiles} files successfully!", 4000, true);
 
-                // 🔹 Clear again after renaming so no stale paths remain
+                // Clear UI
                 SelectedFilesListView.Items.Clear();
                 SelectedFilesCountLabel.Text = "0 file(s) selected";
             }
@@ -347,7 +336,7 @@ namespace FileRenamerApp
         {
             try
             {
-                // Step 1: Select root folder
+                // Select root folder
                 using (var dialog = new FolderBrowserDialog())
                 {
                     dialog.Description = "Select the root folder containing subfolders (01, 02, 03, ...)";
@@ -355,8 +344,10 @@ namespace FileRenamerApp
 
                     string rootFolder = dialog.SelectedPath;
 
-                    // Step 2: Get subfolders sorted alphabetically
-                    var subFolders = Directory.GetDirectories(rootFolder).OrderBy(f => f).ToArray();
+                    // Get subfolders
+                    var subFolders = Directory.GetDirectories(rootFolder)
+                                              .OrderBy(f => f)
+                                              .ToArray();
 
                     if (subFolders.Length == 0)
                     {
@@ -364,27 +355,24 @@ namespace FileRenamerApp
                         return;
                     }
 
-                    // Step 3: Auto-create output folder beside root folder
+                    // Create output folder beside root
                     string parentDir = Path.GetDirectoryName(rootFolder);
                     string rootName = Path.GetFileName(rootFolder);
                     string outputFolder = Path.Combine(parentDir, rootName + "_PhotoMerged");
 
                     if (!Directory.Exists(outputFolder))
-                    {
                         Directory.CreateDirectory(outputFolder);
-                    }
 
-                    // Step 4: Collect images from each folder in order
-                    var supportedExtensions = new[] { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp" };
+                    // Collect images
+                    string[] supportedExtensions = { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp" };
                     var allImages = new List<string>();
 
                     foreach (var folder in subFolders)
                     {
-                        var images = Directory.GetFiles(folder)
-                                              .Where(f => supportedExtensions.Contains(Path.GetExtension(f).ToLower()))
-                                              .ToArray();
-
-                        allImages.AddRange(images);
+                        allImages.AddRange(
+                            Directory.GetFiles(folder)
+                                .Where(f => supportedExtensions.Contains(Path.GetExtension(f).ToLower()))
+                        );
                     }
 
                     if (allImages.Count == 0)
@@ -393,9 +381,10 @@ namespace FileRenamerApp
                         return;
                     }
 
-                    // Step 5: Work out digit length for renaming (e.g. 001, 002...)
+                    // Digit count
                     int digits = allImages.Count.ToString().Length;
 
+                    // Sequential copy + rename
                     int counter = 1;
                     foreach (var imagePath in allImages)
                     {
