@@ -37,8 +37,12 @@
             ChangeExtensionButton = new Button();
             lblAboutThisProgram = new Label();
             SaveNamesToTxtButton = new Button();
-            btnCombinePartsSequentially = new Button();
-            btnMergeAndRenameFolders = new Button();
+            menuStrip1 = new MenuStrip();
+            tsmiRenameService = new ToolStripMenuItem();
+            btnCombinePartsSequentially = new ToolStripMenuItem();
+            btnMergeAndRenameFolders = new ToolStripMenuItem();
+            btnRenameSingleBatch = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // SelectedFilesListView
@@ -49,7 +53,7 @@
             SelectedFilesListView.ForeColor = Color.White;
             SelectedFilesListView.FullRowSelect = true;
             SelectedFilesListView.GridLines = true;
-            SelectedFilesListView.Location = new Point(12, 101);
+            SelectedFilesListView.Location = new Point(12, 116);
             SelectedFilesListView.Name = "SelectedFilesListView";
             SelectedFilesListView.Size = new Size(280, 264);
             SelectedFilesListView.TabIndex = 0;
@@ -71,7 +75,7 @@
             SelectedFilesCountLabel.AutoSize = true;
             SelectedFilesCountLabel.Font = new Font("Segoe UI", 20.25F, FontStyle.Regular, GraphicsUnit.Point);
             SelectedFilesCountLabel.ForeColor = Color.White;
-            SelectedFilesCountLabel.Location = new Point(12, 61);
+            SelectedFilesCountLabel.Location = new Point(12, 76);
             SelectedFilesCountLabel.Name = "SelectedFilesCountLabel";
             SelectedFilesCountLabel.Size = new Size(146, 37);
             SelectedFilesCountLabel.TabIndex = 1;
@@ -85,7 +89,7 @@
             BrowseButton.FlatStyle = FlatStyle.Flat;
             BrowseButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             BrowseButton.ForeColor = Color.White;
-            BrowseButton.Location = new Point(12, 12);
+            BrowseButton.Location = new Point(12, 27);
             BrowseButton.Name = "BrowseButton";
             BrowseButton.Size = new Size(280, 46);
             BrowseButton.TabIndex = 2;
@@ -100,7 +104,7 @@
             RenameButton.FlatStyle = FlatStyle.Flat;
             RenameButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             RenameButton.ForeColor = Color.White;
-            RenameButton.Location = new Point(12, 371);
+            RenameButton.Location = new Point(12, 386);
             RenameButton.Name = "RenameButton";
             RenameButton.Size = new Size(280, 46);
             RenameButton.TabIndex = 3;
@@ -115,7 +119,7 @@
             ChangeExtensionButton.FlatStyle = FlatStyle.Flat;
             ChangeExtensionButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             ChangeExtensionButton.ForeColor = Color.White;
-            ChangeExtensionButton.Location = new Point(12, 423);
+            ChangeExtensionButton.Location = new Point(12, 438);
             ChangeExtensionButton.Name = "ChangeExtensionButton";
             ChangeExtensionButton.Size = new Size(280, 46);
             ChangeExtensionButton.TabIndex = 4;
@@ -128,7 +132,7 @@
             lblAboutThisProgram.AutoSize = true;
             lblAboutThisProgram.Cursor = Cursors.Hand;
             lblAboutThisProgram.ForeColor = SystemColors.Highlight;
-            lblAboutThisProgram.Location = new Point(178, 628);
+            lblAboutThisProgram.Location = new Point(178, 539);
             lblAboutThisProgram.Name = "lblAboutThisProgram";
             lblAboutThisProgram.Size = new Size(114, 15);
             lblAboutThisProgram.TabIndex = 5;
@@ -142,7 +146,7 @@
             SaveNamesToTxtButton.FlatStyle = FlatStyle.Flat;
             SaveNamesToTxtButton.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             SaveNamesToTxtButton.ForeColor = Color.White;
-            SaveNamesToTxtButton.Location = new Point(12, 579);
+            SaveNamesToTxtButton.Location = new Point(12, 490);
             SaveNamesToTxtButton.Name = "SaveNamesToTxtButton";
             SaveNamesToTxtButton.Size = new Size(280, 46);
             SaveNamesToTxtButton.TabIndex = 6;
@@ -150,44 +154,49 @@
             SaveNamesToTxtButton.UseVisualStyleBackColor = false;
             SaveNamesToTxtButton.Click += SaveNamesToTxtButton_Click;
             // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { tsmiRenameService });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(304, 24);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // tsmiRenameService
+            // 
+            tsmiRenameService.DropDownItems.AddRange(new ToolStripItem[] { btnRenameSingleBatch, btnCombinePartsSequentially, btnMergeAndRenameFolders });
+            tsmiRenameService.Name = "tsmiRenameService";
+            tsmiRenameService.Size = new Size(99, 20);
+            tsmiRenameService.Text = "RenameService";
+            // 
             // btnCombinePartsSequentially
             // 
-            btnCombinePartsSequentially.BackColor = Color.FromArgb(45, 45, 48);
-            btnCombinePartsSequentially.FlatAppearance.BorderColor = Color.Gray;
-            btnCombinePartsSequentially.FlatStyle = FlatStyle.Flat;
-            btnCombinePartsSequentially.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            btnCombinePartsSequentially.ForeColor = Color.White;
-            btnCombinePartsSequentially.Location = new Point(12, 475);
             btnCombinePartsSequentially.Name = "btnCombinePartsSequentially";
-            btnCombinePartsSequentially.Size = new Size(280, 46);
-            btnCombinePartsSequentially.TabIndex = 7;
+            btnCombinePartsSequentially.Size = new Size(220, 22);
             btnCombinePartsSequentially.Text = "Sequential Merge";
-            btnCombinePartsSequentially.UseVisualStyleBackColor = false;
             btnCombinePartsSequentially.Click += btnCombinePartsSequentially_Click;
             // 
             // btnMergeAndRenameFolders
             // 
-            btnMergeAndRenameFolders.BackColor = Color.FromArgb(45, 45, 48);
-            btnMergeAndRenameFolders.FlatAppearance.BorderColor = Color.Gray;
-            btnMergeAndRenameFolders.FlatStyle = FlatStyle.Flat;
-            btnMergeAndRenameFolders.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            btnMergeAndRenameFolders.ForeColor = Color.White;
-            btnMergeAndRenameFolders.Location = new Point(12, 527);
             btnMergeAndRenameFolders.Name = "btnMergeAndRenameFolders";
-            btnMergeAndRenameFolders.Size = new Size(280, 46);
-            btnMergeAndRenameFolders.TabIndex = 8;
+            btnMergeAndRenameFolders.Size = new Size(220, 22);
             btnMergeAndRenameFolders.Text = "Merge And Rename Folders";
-            btnMergeAndRenameFolders.UseVisualStyleBackColor = false;
             btnMergeAndRenameFolders.Click += btnMergeAndRenameFolders_Click;
+            // 
+            // btnRenameSingleBatch
+            // 
+            btnRenameSingleBatch.Name = "btnRenameSingleBatch";
+            btnRenameSingleBatch.Size = new Size(220, 22);
+            btnRenameSingleBatch.Text = "Rename Single Batch";
+            btnRenameSingleBatch.Click += btnRenameSingleBatch_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(18, 18, 18);
-            ClientSize = new Size(298, 645);
-            Controls.Add(btnMergeAndRenameFolders);
-            Controls.Add(btnCombinePartsSequentially);
+            ClientSize = new Size(304, 562);
             Controls.Add(SaveNamesToTxtButton);
             Controls.Add(lblAboutThisProgram);
             Controls.Add(ChangeExtensionButton);
@@ -195,11 +204,15 @@
             Controls.Add(BrowseButton);
             Controls.Add(SelectedFilesCountLabel);
             Controls.Add(SelectedFilesListView);
+            Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Simple File Manipulator";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -215,7 +228,10 @@
         private ColumnHeader columnHeader2;
         private Label lblAboutThisProgram;
         private Button SaveNamesToTxtButton;
-        private Button btnCombinePartsSequentially;
-        private Button btnMergeAndRenameFolders;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem tsmiRenameService;
+        private ToolStripMenuItem btnCombinePartsSequentially;
+        private ToolStripMenuItem btnMergeAndRenameFolders;
+        private ToolStripMenuItem btnRenameSingleBatch;
     }
 }

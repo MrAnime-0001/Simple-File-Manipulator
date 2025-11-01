@@ -255,72 +255,81 @@ namespace FileRenamerApp
             ShowToast("This program was made by Yutti Vong Chylong.\nDiscord: mranime", 5000, true);
         }
 
-        private void btnCombinePartsSequentially_Click(object sender, EventArgs e)
+        private void btnRenameSingleBatch_Click(object sender, EventArgs e)
         {
             try
             {
-                // 🔹 Clear existing items
+                // Clear UI
                 SelectedFilesListView.Items.Clear();
                 SelectedFilesCountLabel.Text = "0 file(s) selected";
 
-                // Select Part 1
-                OpenFileDialog dialog1 = new OpenFileDialog();
-                dialog1.Multiselect = true;
-                dialog1.Title = "Select files for Part 1";
-                if (dialog1.ShowDialog() != DialogResult.OK) return;
-                string[] part1Files = dialog1.FileNames;
+                // Select input files
+                OpenFileDialog dialog = new OpenFileDialog
+                {
+                    Multiselect = true,
+                    Title = "Select files for batch rename"
+                };
 
-                // Select Part 2
-                OpenFileDialog dialog2 = new OpenFileDialog();
-                dialog2.Multiselect = true;
-                dialog2.Title = "Select files for Part 2";
-                if (dialog2.ShowDialog() != DialogResult.OK) return;
-                string[] part2Files = dialog2.FileNames;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
 
-                int totalFiles = part1Files.Length + part2Files.Length;
+                string[] files = dialog.FileNames;
 
-                if (totalFiles == 0)
+                if (files.Length == 0)
                 {
                     ShowToast("ℹ️ No files selected.", 3000, false);
                     return;
                 }
 
-                // Calculate digits (001 / 0001 / etc.)
-                int digits = totalFiles.ToString().Length;
+                FileRenameService.RenameSequential(files, Array.Empty<string>());
 
-                int counter = 1;
+                ShowToast($"✅ Renamed {files.Length} files successfully!", 4000, true);
 
-                // Rename Part 1
-                foreach (string filePath in part1Files)
+                SelectedFilesListView.Items.Clear();
+                SelectedFilesCountLabel.Text = "0 file(s) selected";
+            }
+            catch (Exception ex)
+            {
+                ShowToast($"❌ Error: {ex.Message}", 6000, false);
+            }
+        }
+
+        private void btnCombinePartsSequentially_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Clear UI
+                SelectedFilesListView.Items.Clear();
+                SelectedFilesCountLabel.Text = "0 file(s) selected";
+
+                // Select Part 1
+                OpenFileDialog dialog1 = new OpenFileDialog
                 {
-                    if (!File.Exists(filePath)) continue;
+                    Multiselect = true,
+                    Title = "Select files for Part 1"
+                };
+                if (dialog1.ShowDialog() != DialogResult.OK) return;
+                string[] part1Files = dialog1.FileNames;
 
-                    string directory = Path.GetDirectoryName(filePath);
-                    string extension = Path.GetExtension(filePath);
+                // Select Part 2
+                OpenFileDialog dialog2 = new OpenFileDialog
+                {
+                    Multiselect = true,
+                    Title = "Select files for Part 2"
+                };
+                if (dialog2.ShowDialog() != DialogResult.OK) return;
+                string[] part2Files = dialog2.FileNames;
 
-                    string newFileName = counter.ToString("D" + digits) + extension;
-                    string newFilePath = Path.Combine(directory, newFileName);
-
-                    File.Move(filePath, newFilePath);
-                    counter++;
+                if (part1Files.Length + part2Files.Length == 0)
+                {
+                    ShowToast("ℹ️ No files selected.", 3000, false);
+                    return;
                 }
 
-                // Rename Part 2
-                foreach (string filePath in part2Files)
-                {
-                    if (!File.Exists(filePath)) continue;
+                // ✅ Use service
+                FileRenameService.RenameSequential(part1Files, part2Files);
 
-                    string directory = Path.GetDirectoryName(filePath);
-                    string extension = Path.GetExtension(filePath);
-
-                    string newFileName = counter.ToString("D" + digits) + extension;
-                    string newFilePath = Path.Combine(directory, newFileName);
-
-                    File.Move(filePath, newFilePath);
-                    counter++;
-                }
-
-                ShowToast($"✅ Renamed {totalFiles} files successfully!", 4000, true);
+                ShowToast($"✅ Renamed {part1Files.Length + part2Files.Length} files successfully!", 4000, true);
 
                 // Clear UI
                 SelectedFilesListView.Items.Clear();
@@ -336,7 +345,6 @@ namespace FileRenamerApp
         {
             try
             {
-                // Select root folder
                 using (var dialog = new FolderBrowserDialog())
                 {
                     dialog.Description = "Select the root folder containing subfolders (01, 02, 03, ...)";
@@ -344,59 +352,10 @@ namespace FileRenamerApp
 
                     string rootFolder = dialog.SelectedPath;
 
-                    // Get subfolders
-                    var subFolders = Directory.GetDirectories(rootFolder)
-                                              .OrderBy(f => f)
-                                              .ToArray();
+                    // ✅ Use service
+                    FileRenameService.MergeAndRenameSubfolders(rootFolder);
 
-                    if (subFolders.Length == 0)
-                    {
-                        ShowToast("ℹ️ No subfolders found.", 3000, false);
-                        return;
-                    }
-
-                    // Create output folder beside root
-                    string parentDir = Path.GetDirectoryName(rootFolder);
-                    string rootName = Path.GetFileName(rootFolder);
-                    string outputFolder = Path.Combine(parentDir, rootName + "_PhotoMerged");
-
-                    if (!Directory.Exists(outputFolder))
-                        Directory.CreateDirectory(outputFolder);
-
-                    // Collect images
-                    string[] supportedExtensions = { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp" };
-                    var allImages = new List<string>();
-
-                    foreach (var folder in subFolders)
-                    {
-                        allImages.AddRange(
-                            Directory.GetFiles(folder)
-                                .Where(f => supportedExtensions.Contains(Path.GetExtension(f).ToLower()))
-                        );
-                    }
-
-                    if (allImages.Count == 0)
-                    {
-                        ShowToast("ℹ️ No images found in selected folders.", 3000, false);
-                        return;
-                    }
-
-                    // Digit count
-                    int digits = allImages.Count.ToString().Length;
-
-                    // Sequential copy + rename
-                    int counter = 1;
-                    foreach (var imagePath in allImages)
-                    {
-                        string extension = Path.GetExtension(imagePath);
-                        string newFileName = counter.ToString("D" + digits) + extension;
-                        string newFilePath = Path.Combine(outputFolder, newFileName);
-
-                        File.Copy(imagePath, newFilePath, true);
-                        counter++;
-                    }
-
-                    ShowToast($"✅ {allImages.Count} images merged into {outputFolder}!", 5000, true);
+                    ShowToast($"✅ Merge + rename complete!", 4000, true);
                 }
             }
             catch (Exception ex)
