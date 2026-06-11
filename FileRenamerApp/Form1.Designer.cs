@@ -47,6 +47,7 @@
             // 
             // SelectedFilesListView
             // 
+            Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("Simple_File_Manipulator.Simple-File-Manipulator.ico"));
             SelectedFilesListView.BackColor = Color.FromArgb(30, 30, 30);
             SelectedFilesListView.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
             SelectedFilesListView.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
